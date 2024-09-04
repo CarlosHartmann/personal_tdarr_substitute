@@ -8,6 +8,7 @@ import os
 import sys
 import shutil
 import subprocess
+
 from clean_metadata import *
 from add_aac_to_file import filters
 from add_aac_to_file import convert_to_stereo
@@ -18,9 +19,11 @@ from check_valid_default import *
 from fix_subs_audio import *
 from fix_subs_audio import inspect_mkv as subfix
 
+
 # The output paths
 goal_path = "/Users/Carlitos/Movies/premiumize_downloads/out/originale_out"
 goal_4k = "/Users/Carlitos/Movies/premiumize_downloads/out/4K_out" # I am not sure anymore if I ended up using this
+
 
 def check_metadata(mkvinfo, file):
 	'''
@@ -43,6 +46,7 @@ def check_metadata(mkvinfo, file):
 			clean_metadata(file)
 			print("Done cleaning metadata.")
 			return True
+
 
 def preprocess(file, goal_path, root="/Users/Carlitos/Movies/premiumize_downloads/out/originale_in"):
 	if check_metadata(run_mkvinfo(file), file):
@@ -68,6 +72,7 @@ def preprocess(file, goal_path, root="/Users/Carlitos/Movies/premiumize_download
 		if os.path.isfile(file):
 			os.remove(file)
 
+
 def main():
 	global goal_path
 	if len(sys.argv) == 1: # defaults to this path if no other is defined in the calling of the script
@@ -91,6 +96,7 @@ def main():
 			
 	elif os.path.isfile(arg):
 		preprocess(arg, goal_path)
+
 
 if __name__ == "__main__":
 	# I used some file for most of the logs in case the output was unexpected. The script runs fine nowadays so I haven't used this in a long while. You may skip this.
