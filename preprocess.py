@@ -47,7 +47,7 @@ def check_metadata(mkvinfo, file):
 def preprocess(file, goal_path, root="/Users/Carlitos/Movies/premiumize_downloads/out/originale_in"):
 	if check_metadata(run_mkvinfo(file), file):
 		print("Fixing the subtitles:")
-		subfix(file, root)
+		subfix(file, root) # this function is in fix_subs_audio.py and is called 'inspect_mkv' there. It will, however, fix all the subtitles where needed.
 		print("Normal audio conversion:")
 		conv = normal_convert(file, sys.stdout) # this launches a conversion process and is 0 when successful
 		if conv != 0 and conv != 'leave as is': # when not successful, a different workaround script often did the trick -- though I forgot what the workaround does differently
