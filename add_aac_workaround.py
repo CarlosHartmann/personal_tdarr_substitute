@@ -178,63 +178,10 @@ def convert(file, stderr):
 		else:
 			return proc
 
-# def convert(file, stderr=open("log.txt", "a")):
-# 	a_tracks = MI.parse(file).audio_tracks
-# 	num_a_tracks = len(a_tracks)
-# 	convert_tracks = list()
-# 	for track in a_tracks:
-# 		id = track.track_id
-# 		codec = track.codec_id
-# 		
-# 		if track.channellayout_original:
-# 			layout = track.channellayout_original
-# 		else:
-# 			layout = track.channel_layout
-# 			
-# 		if track.channel_s__original:
-# 			chans = str(track.channel_s__original)
-# 		else:
-# 			chans = str(track.channel_s)
-# 		
-# 		if layout != None:
-# 			if 'LFE' in layout.split():
-# 				chans = str(int(chans)-1) + '.1'
-# 			if chans == '5':
-# 				chans = chans + '.0'
-# 			elif chans == '6':
-# 				chans = chans + '.0'
-# 		else:
-# 			if chans == '6':
-# 				chans = '5.1'
-# 		commentary_check = is_commentary(run_mkvinfo(file), id, file)
-# 		if commentary_check == 'metadata_issue':
-# 			return None
-# 		elif '.' in chans:
-# 			convert_tracks.append((id, chans))
-# 		elif 'AAC' not in codec and 'AC3' not in codec and 'E-AC-3' not in codec and 'MPEG/L3' not in codec:
-# 			convert_tracks.append((id, chans))
-# 	layouts = [elem[1] for elem in convert_tracks]
-# 	if len(convert_tracks) > 0:
-# 		proc = convert_to_stereo(file, convert_tracks, num_a_tracks, stderr)
-# 	else:
-# 		proc = 0
-# 	if proc != 0:
-# 		print("Process failed for", file)
-# 		return None # not relevant here but for uses in other scripts
-# 	else:
-# 		return True
-
-def add_stereo(file):
-    path_4k = "/Volumes/Almazen/filmsammlung/4K"
-    filename = file.split('/')[-1]
-    if os.path.isfile(path_4k + "/" + filename): # 4K-Files to be handled differently
-        convert_4k(file, stderr=open("log.txt", "a"))
-    else:
-        convert(file, stderr=open("log.txt", "a"))
  
 def main():
     file = sys.argv[1]
-    add_stereo(file)
+    convert(file, stderr=open("log.txt", "a"))
 
 if __name__ == "__main__":
 	main()
