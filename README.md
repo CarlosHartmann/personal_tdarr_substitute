@@ -11,11 +11,24 @@ The same file edited so that:
 * audio channels have no noisy titles
 * subtitles are all in the SRT file format with UTF-8 character encoding, and are superficially cleaned
 
-How to use this script:
+##How to use this repo:
 
 ### This repo is NOT an installable application. It is uploaded for you to copy the code and adjust it to your environment and goals
 
 The code as it is uploaded will NOT run first-try. There are things like absolute paths in it that require you to read and edit the code before using it yourself. Perhaps an LLM can assist you if you're new to Python.
+
+### Requirements:
+Python libraries:
+* pymediainfo
+* subprocess
+
+Other software to install:
+* mkvpropedit
+* mkvmerge
+* mkvinfo
+* chardetect
+* ffmpeg -- the script expects libfdk_aac which is not a standard component of ffmpeg; I cannot tell you how to install ffmpeg with libfdk_aac, you'll need to find a way yourself
+
 
 ### Instructions
 
