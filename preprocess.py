@@ -62,7 +62,7 @@ def preprocess(file, goal_path, root="/Users/Carlitos/Movies/premiumize_download
 		elif conv == 0:
 			new_name = file[:-4] + "-new.mkv"
 		print("Done, moving new file to the goal path, deleting the old.")
-		audio_check(new_name)
+		audio_check(new_name) # this function is in check_valid_default.py
 		filename = file.split('/')[-1]
 		shutil.move(new_name, os.path.join(goal_path, filename))
 		if os.path.isfile(file):
