@@ -1,10 +1,19 @@
 #!/usr/local/bin/python3
 
+'''
+add_aac_to_file: The seemingly simple name hides a monumental task once you get down to all the exceptions and complications.
+I do not remember most of my work here as it took me 18 hours and I did it in one go without breaks.
+I recommend testing this as a stand-alone and observing what it does to your files. If you want something to be done differently,
+an LLM could perhaps try to find where to edit the code.
+'''
+
+
 import os
 import sys
 import subprocess
 import pymediainfo
 
+# Taken from: https://superuser.com/a/1410620
 filters = {	'5.1': 'pan=stereo|FL<FL+0.707*FC+0.707*BL+0.5*LFE|FR<FR+0.707*FC+0.707*BR+0.5*LFE',
 			'7.1': 'pan=stereo|FL = 0.274804*FC + 0.388631*FL + 0.336565*SL + 0.194316*SR + 0.336565*BL + 0.194316*BR + 0.274804*LFE | FR = 0.274804*FC + 0.388631*FR + 0.336565*SR + 0.194316*SL + 0.336565*BR + 0.194316*BL + 0.274804*LFE',
 			'6.1': 'pan=stereo|FL = 0.321953*FC + 0.455310*FL + 0.394310*SL + 0.227655*SR + 278819*BC + 0.321953*LFE | FR = 0.321953*FC + 0.455310*FR + 0.394310*SR + 0.227655*SL + 278819*BC + 0.321953*LFE',
@@ -133,63 +142,10 @@ def convert(file, stderr):
 		else:
 			return proc
 
-# def convert(file, stderr=open("log.txt", "a")):
-# 	a_tracks = pymediainfo.MediaInfo.parse(file).audio_tracks
-# 	num_a_tracks = len(a_tracks)
-# 	convert_tracks = list()
-# 	for track in a_tracks:
-# 		id = track.track_id
-# 		codec = track.codec_id
-# 		
-# 		if track.channellayout_original:
-# 			layout = track.channellayout_original
-# 		else:
-# 			layout = track.channel_layout
-# 			
-# 		if track.channel_s__original:
-# 			chans = str(track.channel_s__original)
-# 		else:
-# 			chans = str(track.channel_s)
-# 		
-# 		if layout != None:
-# 			if 'LFE' in layout.split():
-# 				chans = str(int(chans)-1) + '.1'
-# 			if chans == '5':
-# 				chans = chans + '.0'
-# 			elif chans == '6':
-# 				chans = chans + '.0'
-# 		else:
-# 			if chans == '6':
-# 				chans = '5.1'
-# 		commentary_check = is_commentary(run_mkvinfo(file), id, file)
-# 		if commentary_check == 'metadata_issue':
-# 			return None
-# 		elif '.' in chans:
-# 			convert_tracks.append((id, chans))
-# 		elif 'AAC' not in codec and 'AC3' not in codec and 'E-AC-3' not in codec and 'MPEG/L3' not in codec:
-# 			convert_tracks.append((id, chans))
-# 	layouts = [elem[1] for elem in convert_tracks]
-# 	if len(convert_tracks) > 0:
-# 		proc = convert_to_stereo(file, convert_tracks, num_a_tracks, stderr)
-# 	else:
-# 		proc = 0
-# 	if proc != 0:
-# 		print("Process failed for", file)
-# 		return None # not relevant here but for uses in other scripts
-# 	else:
-# 		return True
-
-def add_stereo(file):
-    path_4k = "/Volumes/Almazen/filmsammlung/4K"
-    filename = file.split('/')[-1]
-    if os.path.isfile(path_4k + "/" + filename): # 4K-Files to be handled differently
-        convert_4k(file, stderr=open("log.txt", "a"))
-    else:
-        convert(file, stderr=open("log.txt", "a"))
  
-def main():
+def main(): # this is just for running the script as stand-alone
     file = sys.argv[1]
-    add_stereo(file)
+    convert(file, stderr=open("log.txt", "a")))
 
 if __name__ == "__main__":
 	main()
