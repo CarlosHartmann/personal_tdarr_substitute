@@ -1,5 +1,7 @@
-'''
-check_valid_default: Überprüft alle MKVs darauf, ob ihr default Audio track kein commentary ist und den Codec-Erwartungen entspricht. Ausserdem werden unerlaubte Audio-Codecs gesucht.
+s'''
+check_valid_default: Checks MKVs to ensure the presence of only one default track and that it is not commentary and that all audio tracks meet my requirements.
+Some audio codecs were incompatible with my setup. They have to be removed.
+Note that at this point all audio tracks have been copied&converted to AAC, so removing an audio track does not lose anything.
 '''
 
 import os
@@ -13,6 +15,7 @@ from pymediainfo import MediaInfo as MI
 def get_codec(track):
 	return track.codec_id
 
+# Depends on your setup. At the time of writing this code, the 'forbidden' codecs cause issues on Plex.
 valid_codecs =		['A_AAC-2', 'A_AAC-5', 'A_AC3', 'A_DTS', 'A_EAC3', 'A_FLAC', 'A_MPEG/L2', 'A_MPEG/L3', 'A_TRUEHD']
 forbidden_codecs =	['A_PCM/INT/LIT', 'A_VORBIS', 'mp4a-40-2']
 default_codecs =	['A_AAC-2', 'A_AC3', 'A_EAC3', 'A_MPEG/L3']
