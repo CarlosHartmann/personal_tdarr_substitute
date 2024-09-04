@@ -11,7 +11,7 @@ The same file edited so that:
 * audio channels have no noisy titles
 * subtitles are all in the SRT file format with UTF-8 character encoding, and are superficially cleaned
 
-##How to use this repo:
+## How to use this repo:
 
 ### This repo is NOT an installable application. It is uploaded for you to copy the code and adjust it to your environment and goals
 
@@ -37,3 +37,4 @@ Other software to install:
 3. Start reading preprocess.py -- this is the main script.
 4. Input your own paths where necessary
 5. Open and edit other files mentioned in preprocess.py as needed.
+6. Define a shortcut for executing preprocess.py in the src of your terminal. This way you can tie it to events or certain times for automation.
