@@ -1,5 +1,6 @@
 '''
-clean_metadata: Bereinigt Metadaten von Filmen nach Vorschrift.
+clean_metadata: It cleans the MKV metadata to my liking.
+Most titles are deleted, but if valuable info is found in them, the info is transferred to its proper place in the MKV metadata.
 '''
 
 import os
@@ -15,7 +16,7 @@ def clean_metadata(file):
 	subprocess.call(['/usr/local/bin/mkvpropedit', file, '--edit', 'track:v1', '--set', 'language=und'])
 	
 	if video.title is not None:
-		if 'intertitles' not in video.title.lower() and 'hard' not in video.title.lower():
+		if 'intertitles' not in video.title.lower() and 'hard' not in video.title.lower(): # some video tracks can have valuable info in the title, such as "intertitles" for silent films or "hard-coded english subtitles"
 			print("Deleting video title.")
 			subprocess.call(['/usr/local/bin/mkvpropedit', file, '--edit', 'track:v1', '--delete', 'name'])
 		else:
