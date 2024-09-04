@@ -21,6 +21,7 @@ with open(done_files_path) as infile:
 	
 finished_dirs = ['Carnival']
 
+
 def remux(file, sub_ids):
 	mkvmerge_command = ["/usr/local/bin/mkvmerge", "-o", file[:-4]+'-temp.mkv', '--no-subtitles', file]
 	mkvpropedit_command = ["/usr/local/bin/mkvpropedit", file[:-4]+'-temp.mkv']
@@ -51,13 +52,16 @@ def remux(file, sub_ids):
 	subprocess.call(mkvmerge_command, stdout=subprocess.PIPE)
 	subprocess.call(mkvpropedit_command, stdout=subprocess.PIPE)
 
+
 def remove_formatting(text):
 	text = re.sub('<[^>]+>', '', text)
 	text = re.sub('\{[^}]+\}', '', text)
 	return text
 
+
 def remove_false_positives(url_list):
 	return [elem for elem in url_list if elem != "L.A." and not re.search("\.{3}\w", elem)]
+
 
 def test_sub_content(file):
 	result = False
@@ -85,6 +89,7 @@ def test_sub_content(file):
 		outfile.write(content)
 	return result
 
+
 def fix_charset(subfile, charset):
 	try:
 		with open(subfile, encoding=charset) as infile:
@@ -97,12 +102,14 @@ def fix_charset(subfile, charset):
 	with open(subfile, "w", encoding="utf-8") as outfile:
 		outfile.write(content)
 
+
 def cleanup(file, sub_ids, updated):
 	if updated:
 		subprocess.call(["rm", file])
 		subprocess.call(["mv", file[:-4]+'-temp.mkv', file])
 	for elem in sub_ids:
 		subprocess.call(["rm", file[:-4]+'-'+str(elem[0])+'.srt'])
+
 
 def fix_subs(file, sub_ids):
 	update_needed = False
@@ -125,10 +132,12 @@ def fix_subs(file, sub_ids):
 			
 	return update_needed
 
+
 def extract_subs(file, sub_ids):
 	for id in range(len(sub_ids)):
 		sub_filename = file[:-4]+'-'+str(sub_ids[id][0])+'.srt'
 		subprocess.call(["/usr/local/bin/ffmpeg", "-n", "-i", file, "-map", "0:s:"+str(id), "-c:s", "copy", "-nostats", sub_filename]) #, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+
 
 def fix_mkv(file, ids, root):
 	extract_subs(file, ids)
@@ -140,6 +149,7 @@ def fix_mkv(file, ids, root):
 	else:
 		print("No update of file", file, "was needed. Cleaning up and leaving file intact.")
 		cleanup(file, ids, updated=False)
+
 
 def get_flags(mkvinfo, id):
 	id = str(id)
@@ -188,6 +198,7 @@ def inspect_mkv(file, root):
 	else:
 		print(file, "does not have any subtitles.")
 
+
 def fix_all_mkv_subs_in(dir, max_files):
 	global done_files
 	counter = 0
@@ -205,6 +216,7 @@ def fix_all_mkv_subs_in(dir, max_files):
 						print(str(counter)+'/'+str(max_files), "files processed.")
 					counter += 1
 
+
 def get_total_files(dir):
 	counter = 0
 	for root, dirs, files in os.walk(dir):
@@ -213,6 +225,7 @@ def get_total_files(dir):
 				if len([elem for elem in finished_dirs if elem in root]) == 0:
 					counter += 1
 	return counter
+
 
 def main():
 	rootfolder = sys.argv[1]
